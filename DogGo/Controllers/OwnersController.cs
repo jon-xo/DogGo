@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+
 
 namespace DogGo.Controllers
 {
@@ -60,21 +57,30 @@ namespace DogGo.Controllers
 								// GET: Owners/Edit/5
 								public ActionResult Edit(int id)
 								{
-												return View();
+												Owner owner = _ownerRepo.GetOwnerById(id);
+
+												if (owner == null)
+												{
+																return NotFound();
+												}
+
+												return View(owner);
 								}
 
 								// POST: Owners/Edit/5
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Edit(int id, IFormCollection collection)
+								public ActionResult Edit(int id, Owner owner)
 								{
 												try
 												{
-																return RedirectToAction(nameof(Index));
+																_ownerRepo.UpdateOwner(owner);
+
+																return RedirectToAction("Index");
 												}
-												catch
+												catch (Exception ex)
 												{
-																return View();
+																return View(owner);
 												}
 								}
 
