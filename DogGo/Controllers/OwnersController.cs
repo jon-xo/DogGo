@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 
 namespace DogGo.Controllers
 {
@@ -18,7 +19,7 @@ namespace DogGo.Controllers
 												_ownerRepo = ownerRepository;
 								}
 
-								// GET: HomeController1
+								// GET: Owners
 								public ActionResult Index()
 								{
 												List<Owner> owners = _ownerRepo.GetAllOwners();
@@ -26,40 +27,43 @@ namespace DogGo.Controllers
 												return View(owners);
 								}
 
-								// GET: HomeController1/Details/5
+								// GET: Owners/Details/5
 								public ActionResult Details(int id)
 								{
 												return View();
 								}
 
-								// GET: HomeController1/Create
+								// GET: Owners/Create
 								public ActionResult Create()
 								{
 												return View();
 								}
 
-								// POST: HomeController1/Create
+								// POST: Owners/Create
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Create(IFormCollection collection)
+								public ActionResult Create(Owner owner)
 								{
 												try
 												{
+																//owner.NeighborhoodId = 1;
+																_ownerRepo.AddOwner(owner);
+
 																return RedirectToAction(nameof(Index));
 												}
-												catch
+												catch(Exception ex)
 												{
-																return View();
+																return View(owner);
 												}
 								}
 
-								// GET: HomeController1/Edit/5
+								// GET: Owners/Edit/5
 								public ActionResult Edit(int id)
 								{
 												return View();
 								}
 
-								// POST: HomeController1/Edit/5
+								// POST: Owners/Edit/5
 								[HttpPost]
 								[ValidateAntiForgeryToken]
 								public ActionResult Edit(int id, IFormCollection collection)
@@ -74,24 +78,29 @@ namespace DogGo.Controllers
 												}
 								}
 
-								// GET: HomeController1/Delete/5
+								// GET: Owners/Delete/5
 								public ActionResult Delete(int id)
 								{
-												return View();
+												Owner owner = _ownerRepo.GetOwnerById(id);
+
+												return View(owner);
 								}
 
-								// POST: HomeController1/Delete/5
+								// POST: Owners/Delete/5
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Delete(int id, IFormCollection collection)
+								public ActionResult Delete(int id, Owner owner)
 								{
 												try
 												{
-																return RedirectToAction(nameof(Index));
+																_ownerRepo.DeleteOwner(id);
+																
+																return RedirectToAction("Index");
 												}
-												catch
+												catch (Exception ex)
 												{
-																return View();
+																Console.WriteLine(ex);
+																return View(owner);
 												}
 								}
 				}
