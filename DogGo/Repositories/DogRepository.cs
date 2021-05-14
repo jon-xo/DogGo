@@ -42,7 +42,10 @@ namespace DogGo.Repositories
 								{
 												using (SqlConnection conn = Connection)
 												{
+																// Initiate Sql connection
 																conn.Open();
+
+																// Create Sql Query
 																using (SqlCommand cmd = conn.CreateCommand())
 																{
 																				cmd.CommandText = @"
@@ -50,11 +53,16 @@ namespace DogGo.Repositories
                         FROM Dog
                     ";
 
+																				// Declare variable to store reader command
 																				SqlDataReader reader = cmd.ExecuteReader();
 
+																				// Instantiate a list of dog objects
 																				List<Dog> dogs = new List<Dog>();
+
+																				//Create a while loop to iterate through all database rows
 																				while(reader.Read())
 																				{
+																								// Instantiate a new dog object
 																								Dog dog = new Dog
 																								{
 																												Id = reader.GetInt32(reader.GetOrdinal("Id")),
@@ -62,16 +70,31 @@ namespace DogGo.Repositories
 																												OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
 																												Breed = reader.GetString((reader.GetOrdinal("Breed")))
 																								};
+																								
+																								// -- null database handling --
 
-																								if (reader.GetString(reader.GetOrdinal("Notes")) == null)
+																								// seperate conditional detects for Null value
+																								// and writes string to object's Notes/ImageUrl properties
+																								// if null exists, ELSE writes DB value to property
+																								
+																								if (reader.GetValue(reader.GetOrdinal("Notes")) == DBNull.Value)
 																								{
-																												dog.Notes = "";
-																								};
+																												dog.Notes = "No Notes";
+																								}
+																								else
+																								{
+																												dog.Notes = reader.GetString(reader.GetOrdinal("Notes"));
+																								}
+;
 
-																								if (reader.GetString(reader.GetOrdinal("ImageUrl")) == null)
+																								if (reader.GetValue(reader.GetOrdinal("ImageUrl")) == DBNull.Value)
 																								{
 																												dog.ImageUrl = "https://i.pinimg.com/originals/07/93/a0/0793a045622b504943b975dd36c41da6.png";
 																								}
+																								else
+																								{
+																												dog.ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
+																								};
 
 																								dogs.Add(dog);
 																				}
