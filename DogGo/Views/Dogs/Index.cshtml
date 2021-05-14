@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DogGo.Models.Dog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Breed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (Dog dog in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => dog.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dog.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dog.OwnerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dog.Breed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dog.Notes)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.ImageUrl)*@
+																<img src="@dog.ImageUrl" alt="dogvatar" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=dog.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=dog.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=dog.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
