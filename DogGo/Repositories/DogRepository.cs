@@ -60,7 +60,23 @@ namespace DogGo.Repositories
 
 								public void DeleteDog(int dogId)
 								{
-												throw new NotImplementedException();
+												using (SqlConnection conn = Connection)
+												{
+																conn.Open();
+
+																using (SqlCommand cmd = conn.CreateCommand())
+																{
+																				cmd.CommandText = @"
+																								DELETE FROM Dog
+																								WHERE Id = @id
+																				";
+
+																				cmd.Parameters.AddWithValue("@id", dogId);
+
+																				cmd.ExecuteNonQuery();
+																}
+
+												}
 								}
 
 								public List<Dog> GetAllDogs()
