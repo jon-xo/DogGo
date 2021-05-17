@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DogGo.Controllers
 {
@@ -19,6 +20,7 @@ namespace DogGo.Controllers
 								}
 								
 								// GET: Dogs
+								//[Authorize]
 								public ActionResult Index()
 								{
 												int ownerId = GetCurrentUserId();
@@ -37,6 +39,7 @@ namespace DogGo.Controllers
 								}
 
 								// GET: Dogs/Create
+								//[Authorize]
 								public ActionResult Create()
 								{
 												return View();
@@ -65,9 +68,11 @@ namespace DogGo.Controllers
 								// GET: Dogs/Edit/5
 								public ActionResult Edit(int id)
 								{
+												int ownerId = GetCurrentUserId();
+
 												Dog dog = _dogRepo.GetDogById(id);
 
-												if (dog == null)
+												if (dog == null || dog.OwnerId != ownerId)
 												{
 																return NotFound();
 												}
@@ -96,7 +101,14 @@ namespace DogGo.Controllers
 								// GET: Dogs/Delete/5
 								public ActionResult Delete(int id)
 								{
+												int ownerId = GetCurrentUserId();
+
 												Dog dog = _dogRepo.GetDogById(id);
+
+												if (dog.OwnerId != ownerId)
+												{
+																return NotFound();
+												}
 
 												return View(dog);
 								}

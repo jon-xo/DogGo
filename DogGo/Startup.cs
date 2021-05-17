@@ -35,11 +35,6 @@ namespace DogGo
 												services.AddTransient<IWalkRepository, WalkRepository>();
 
 												services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Owners/LogIn");
-
-
-												services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
-												services.AddTransient<IWalkRepository, WalkRepository>();
-
 								}
 
 								// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
