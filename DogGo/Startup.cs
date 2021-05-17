@@ -26,17 +26,20 @@ namespace DogGo
 								public void ConfigureServices(IServiceCollection services)
 								{
 												services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
 												services.AddTransient<IWalkerRepository, WalkerRepository>();
 												services.AddTransient<IOwnerRepository, OwnerRepository>();
 												services.AddTransient<IDogRepository, DogRepository>();
-<<<<<<< Updated upstream
-=======
 												services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
 												services.AddTransient<IWalkRepository, WalkRepository>();
 
 												services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Owners/LogIn");
 
->>>>>>> Stashed changes
+
+												services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
+												services.AddTransient<IWalkRepository, WalkRepository>();
+
 								}
 
 								// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

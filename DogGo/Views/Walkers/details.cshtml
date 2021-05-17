@@ -1,43 +1,99 @@
-﻿@model DogGo.Models.Walker
+﻿@model DogGo.Models.ViewModels.ProfileViewModel
 
 @{
     ViewData["Title"] = "details";
 }
 
-<h1>details</h1>
+<h1>Walker Profile</h1>
 
 <div>
-    <h4>Walker</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NeighborhoodId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NeighborhoodId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-								<dd class="col-sm-10">
+				<section class="container">
+								<img style="width:100px;float:left;margin-right:20px"
+													src="@Model.Walker.ImageUrl" />
+								<div>
+												<label class="font-weight-bold">Name:</label>
+												<span>@Model.Walker.Name</span>
+								</div>
+								<div>
+												<label class="font-weight-bold">Neighborhood:</label>
+												<span>@Model.Hood.Name</span>
+								</div>
+				</section>
+
+				<hr class="mt-5" />
+				<div class="clearfix"></div>
+
+				<div class="row">
+								<section class="col-8 container mt-5">
+												<h1 class="text-left">Recent Walks</h1>
+												<dl class="row">
+												<table class="table">
+																<thead>
+																				<tr>
+																								<th scope="col">
+																												Date
+																								</th>
+																								<th scope="col">
+																												Client
+																								</th>
+																								<th scope="col">
+																												Duration
+																								</th>
+																				</tr>
+																</thead>
+																@foreach (Walk walk in Model.Walks)
+																{
+																				<tr>
+																								<th scope="row">
+																												@Html.DisplayFor(model => walk.Date)
+																								</th>
+																								<td>
+																												@walk.Owner
+																								</td>
+																								<td>
+																												@Html.DisplayFor(model => walk.Duration) min
+																								</td>
+																				</tr>
+																}
+												</table>
+
+								</section>
+								<section class="col-4 container mt-5">
+												<h2>Total Walk Time</h2>
+												<h4>@Model.WalkTotal</h4>
+								</section>
+				</div>
+
+
+				<!--<dl class="row">
+								<dt class="col-sm-2">-->
+												@*@Html.DisplayNameFor(model => model.Id)*@
+								<!--</dt>
+								<dd class="col-sm-10">-->
+												@*@Html.DisplayFor(model => model.Id)*@
+								<!--</dd>
+								<dt class="col-sm-2">-->
+												@*@Html.DisplayNameFor(model => model.Name)*@
+								<!--</dt>
+								<dd class="col-sm-10">-->
+												@*@Html.DisplayFor(model => model.Name)*@
+								<!--</dd>
+								<dt class="col-sm-2">-->
+												@*@Html.DisplayNameFor(model => model.NeighborhoodId)*@
+								<!--</dt>
+								<dd class="col-sm-10">-->
+												@*@Html.DisplayFor(model => model.NeighborhoodId)*@
+								<!--</dd>
+								<dt class="col-sm-2">-->
+												@*@Html.DisplayNameFor(model => model.ImageUrl)*@
+								<!--</dt>
+								<dd class="col-sm-10">-->
 												@*@Html.DisplayFor(model => model.ImageUrl)*@
-												<img class="bg-info" src="@Model.ImageUrl" alt="avatar" />
-								</dd>
-    </dl>
+												@*<img class="bg-info" src="@Model.ImageUrl" alt="avatar" />*@
+								<!--</dd>
+				</dl>-->
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+								@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+								<a asp-action="Index">Back to List</a>
 </div>

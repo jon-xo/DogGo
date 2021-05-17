@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DogGo.Repositories;
 using DogGo.Models;
+using DogGo.Models.ViewModels;
 
 namespace DogGo.Controllers
 {
@@ -14,14 +14,27 @@ namespace DogGo.Controllers
 				{
 
 								private readonly IWalkerRepository _walkerRepo;
+								private readonly IWalkRepository _walkRepo;
+								private readonly IDogRepository _dogRepo;
+								private readonly INeighborhoodRepository _neighborRepo;
+								private readonly IOwnerRepository _ownerRepo;
 
 								// ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
-								public WalkersController(IWalkerRepository walkerRepository)
+								public WalkersController(
+												IWalkerRepository walkerRepository,
+												IWalkRepository walkRepository,
+												IDogRepository dogRepository,
+												INeighborhoodRepository neighborRepository)
+												//IOwnerRepository ownerRepository
 								{
 												_walkerRepo = walkerRepository;
+												_walkRepo = walkRepository;
+												_dogRepo = dogRepository;
+												_neighborRepo = neighborRepository;
+												//_ownerRepo = ownerRepository;
 								}
 
-								// GET: HomeController1
+								// GET: Walkers
 								public ActionResult Index()
 								{
 												List<Walker> walkers = _walkerRepo.GetAllWalkers();
@@ -29,29 +42,44 @@ namespace DogGo.Controllers
 												return View(walkers);
 								}
 
-								// GET: HomeController1/Details/5
+								// GET: Walkers/Details/5
 								public ActionResult Details(int id)
 								{
 												Walker walker = _walkerRepo.GetWalkerById(id);
+												List<Walk> walks = _walkRepo.GetWalksById(id);
+												Neighborhood hood = _neighborRepo.GetNeighborhoodById(walker.NeighborhoodId);
+												string walkTotal = _walkRepo.WalkTime(walks);
+												//int walkId = walk.DogId;
+												//Owner owner = _walkRepo.GetOwner(walk.DogId);
+												//Owner owner = _ownerRepo.GetOwnerByDog;
 
-												if (walker == null)
+												ProfileViewModel vm = new ProfileViewModel()
+												{
+																Walker = walker,
+																Walks = walks,
+																Hood = hood,
+																WalkTotal = walkTotal
+												};
+
+
+												if (vm.Walker == null)
 												{
 																return NotFound();
 												}
 
-												return View(walker);
+												return View(vm);
 								}
 
-								// GET: HomeController1/Create
+								// GET: Walkers/Create
 								public ActionResult Create()
 								{
 												return View();
 								}
 
-								// POST: HomeController1/Create
+								// POST: Walkers/Create
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Create(IFormCollection collection)
+								public ActionResult Create(Walker walker)
 								{
 												try
 												{
@@ -63,16 +91,16 @@ namespace DogGo.Controllers
 												}
 								}
 
-								// GET: HomeController1/Edit/5
+								// GET: Walkers/Edit/5
 								public ActionResult Edit(int id)
 								{
 												return View();
 								}
 
-								// POST: HomeController1/Edit/5
+								// POST: Walkers/Edit/5
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Edit(int id, IFormCollection collection)
+								public ActionResult Edit(int id, Walker walker)
 								{
 												try
 												{
@@ -84,16 +112,16 @@ namespace DogGo.Controllers
 												}
 								}
 
-								// GET: HomeController1/Delete/5
+								// GET: Walkers/Delete/5
 								public ActionResult Delete(int id)
 								{
 												return View();
 								}
 
-								// POST: HomeController1/Delete/5
+								// POST: Walkers/Delete/5
 								[HttpPost]
 								[ValidateAntiForgeryToken]
-								public ActionResult Delete(int id, IFormCollection collection)
+								public ActionResult Delete(int id, Walker walker)
 								{
 												try
 												{
