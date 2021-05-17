@@ -3,7 +3,15 @@ using System;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Collections.Generic;
+<<<<<<< Updated upstream
 
+=======
+using DogGo.Models.ViewModels;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+>>>>>>> Stashed changes
 
 namespace DogGo.Controllers
 {
@@ -16,6 +24,42 @@ namespace DogGo.Controllers
 												_ownerRepo = ownerRepository;
 								}
 
+<<<<<<< Updated upstream
+=======
+								//GET: Login
+								public ActionResult Login()
+								{
+												return View();
+								}
+
+								[HttpPost]
+								public async Task<ActionResult> Login(LoginViewModel viewModel)
+								{
+												Owner owner = _ownerRepo.GetOwnerByEmail(viewModel.Email);
+
+												if (owner == null)
+												{
+																return Unauthorized();
+												}
+
+												var claims = new List<Claim>
+												{
+																new Claim(ClaimTypes.NameIdentifier, owner.Id.ToString()),
+																new Claim(ClaimTypes.Email, owner.Email),
+																new Claim(ClaimTypes.Role, "DogOwner"),
+												};
+
+												var claimsIdentity = new ClaimsIdentity(
+																claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+												await HttpContext.SignInAsync(
+																CookieAuthenticationDefaults.AuthenticationScheme,
+																new ClaimsPrincipal(claimsIdentity));
+
+												return RedirectToAction("Index", "Dogs");
+								}
+
+>>>>>>> Stashed changes
 								// GET: Owners
 								public ActionResult Index()
 								{
