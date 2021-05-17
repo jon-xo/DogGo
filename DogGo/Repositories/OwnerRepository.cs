@@ -141,6 +141,45 @@ namespace DogGo.Repositories
 												}
 								}
 
+								//public Owner GetOwnerByDog(int dogId)
+								//{
+								//				using (SqlConnection conn = Connection)
+								//				{
+								//								conn.Open();
+
+								//								using (SqlCommand cmd = conn.CreateCommand())
+								//								{
+								//												cmd.CommandText = @"
+        //                SELECT ow.Id, ow.[Name], ow.[Address], ow.Phone, ow.NeighborhoodId
+        //                FROM Owner ow
+								//																JOIN Dog d ON ow.Id = d.OwnerId
+        //                WHERE d.OwnerId = @id";
+
+								//												cmd.Parameters.AddWithValue("@id", dogId);
+
+								//												SqlDataReader reader = cmd.ExecuteReader();
+
+								//												if (reader.Read())
+								//												{
+								//																Owner owner = new Owner()
+								//																{
+								//																				Id = reader.GetInt32(reader.GetOrdinal("Id")),
+								//																				Name = reader.GetString(reader.GetOrdinal("Name")),
+								//																				Address = reader.GetString(reader.GetOrdinal("Address")),
+								//																				Phone = reader.GetString(reader.GetOrdinal("Phone")),
+								//																				NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId"))
+								//																};
+
+								//																reader.Close();
+								//																return owner;
+								//												}
+
+								//												reader.Close();
+								//												return null;
+								//								}
+								//				}
+								//}
+
 								public void AddOwner(Owner owner)
 								{
 												using (SqlConnection conn = Connection)

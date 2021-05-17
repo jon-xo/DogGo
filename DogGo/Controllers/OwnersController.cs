@@ -4,7 +4,6 @@ using System;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using DogGo.Models.ViewModels;
 
 namespace DogGo.Controllers
