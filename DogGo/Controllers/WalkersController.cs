@@ -17,6 +17,7 @@ namespace DogGo.Controllers
 								private readonly IWalkRepository _walkRepo;
 								private readonly IDogRepository _dogRepo;
 								private readonly INeighborhoodRepository _neighborRepo;
+								private readonly IOwnerRepository _ownerRepo;
 
 								// ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
 								public WalkersController(
@@ -24,11 +25,13 @@ namespace DogGo.Controllers
 												IWalkRepository walkRepository,
 												IDogRepository dogRepository,
 												INeighborhoodRepository neighborRepository)
+												//IOwnerRepository ownerRepository
 								{
 												_walkerRepo = walkerRepository;
 												_walkRepo = walkRepository;
 												_dogRepo = dogRepository;
 												_neighborRepo = neighborRepository;
+												//_ownerRepo = ownerRepository;
 								}
 
 								// GET: Walkers
@@ -40,17 +43,22 @@ namespace DogGo.Controllers
 								}
 
 								// GET: Walkers/Details/5
-				public ActionResult Details(int id)
+								public ActionResult Details(int id)
 								{
 												Walker walker = _walkerRepo.GetWalkerById(id);
-												List<Walk> walks = _walkRepo.GetAllWalks();
+												List<Walk> walks = _walkRepo.GetWalksById(id);
 												Neighborhood hood = _neighborRepo.GetNeighborhoodById(walker.NeighborhoodId);
+												string walkTotal = _walkRepo.WalkTime(walks);
+												//int walkId = walk.DogId;
+												//Owner owner = _walkRepo.GetOwner(walk.DogId);
+												//Owner owner = _ownerRepo.GetOwnerByDog;
 
 												ProfileViewModel vm = new ProfileViewModel()
 												{
 																Walker = walker,
 																Walks = walks,
-																Hood = hood
+																Hood = hood,
+																WalkTotal = walkTotal
 												};
 
 

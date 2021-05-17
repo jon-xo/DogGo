@@ -25,7 +25,7 @@
 
 				<div class="row">
 								<section class="col-8 container mt-5">
-												<h1 class="text-left">Walks</h1>
+												<h1 class="text-left">Recent Walks</h1>
 												<dl class="row">
 												<table class="table">
 																<thead>
@@ -34,7 +34,7 @@
 																												Date
 																								</th>
 																								<th scope="col">
-																												Dog ID
+																												Client
 																								</th>
 																								<th scope="col">
 																												Duration
@@ -48,10 +48,10 @@
 																												@Html.DisplayFor(model => walk.Date)
 																								</th>
 																								<td>
-																												@Html.DisplayFor(model => walk.DogId)
+																												@walk.Owner
 																								</td>
 																								<td>
-																												@Html.DisplayFor(model => walk.Duration)
+																												@Html.DisplayFor(model => walk.Duration) min
 																								</td>
 																				</tr>
 																}
@@ -60,7 +60,7 @@
 								</section>
 								<section class="col-4 container mt-5">
 												<h2>Total Walk Time</h2>
-												<h4>@Model.Walks.Sum(walk => walk.Duration)</h4>
+												<h4>@Model.WalkTotal</h4>
 								</section>
 				</div>
 
